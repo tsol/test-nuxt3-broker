@@ -36,8 +36,12 @@
 
 
       <v-main>
-        <slot />
+        <keep-alive>
+          <slot />
+        </keep-alive>
       </v-main>
+
+
     </v-layout>
   </v-card>
 </template>

@@ -1,30 +1,25 @@
 import mitt from 'mitt';
 
-/*
- const {$event, $listen} = useNuxtApp();
-
-*/
-
-interface User {
+export interface SelectedSymbol {
   name: string;
 }
 
+export interface OrdersBookDiff {
+  data: string;
+}
+
 type ApplicationEvents = {
-  // translates to:
-  // user:registered -> event name
-  // User -> type as payload
-  'user:registered': User;
-  'user:deleted': User;
+  'symbol:changed': SelectedSymbol;
+  'orders-book:diff': OrdersBookDiff;
 };
 
 export default defineNuxtPlugin(() => {
-  // Then we just inform mitt about our event types
   const emitter = mitt<ApplicationEvents>();
 
   return {
     provide: {
-      event: emitter.emit, // Will emit an event
-      listen: emitter.on, // Will register a listener for an event
+      event: emitter.emit,
+      listen: emitter.on,
     },
   };
 });

@@ -1,16 +1,10 @@
 # Nuxt 3 Minimal Starter
 
-This is a test task for a job interview. Initial tasks requires
-Single Page Application (preferably with SSR, preferably VUE,
-well designed, higly reactive, modular - where each page
-component can be loaded at runtime.
+This is a test task for a job interview. Initial task requires me to build a
+Single Page Application (preferably with SSR support, preferably in VUE/VUETIFY,
+well designed, higly reactive, modular - where each page component can be loaded at runtime.
 
-Initial tasks requests for presense of two 'core' plugins -
-EventBus and Binance order book library. And also two pages -
-one with live-time updated orders, other with STOCKS selector. Each
-one page must affect the other though EventBus.
-
-Design is requested to be Vuetify (and at the same time CSS styling should be BEM).
+Initial tasks requests for presense of two 'core' plugins - EventBus and Binance order book library. And also two pages - one with live-time updated orders, other with STOCKS selector. Each one page must affect the other though EventBus.
 
 ## My way of thought: initial plan
 

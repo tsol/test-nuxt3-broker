@@ -13,6 +13,7 @@
   "dependencies": {
     "@mdi/font": "^7.1.96",
     "add": "^2.0.6",
+    "binance": "^2.3.3",
     "mitt": "^3.0.0",
     "sass": "^1.58.0",
     "socket.io": "^4.6.0",

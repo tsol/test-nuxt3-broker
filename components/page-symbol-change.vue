@@ -15,14 +15,20 @@ defineProps<{
   symbols: string[]
 }>();
 
-const { $event, $listen } = useNuxtApp();
+const { $busOn, $busEmit } = useNuxtApp();
 
-$listen('orders-book:diff', (event) => {
-  console.log('symbol-change-page: diff arrived: ', event);
-});
+// $busOn('orders-book:diff', (event) => {
+//   console.log('symbol-change-page: diff arrived: ', event);
+// });
+
 
 const changeSymbol = (symbol: string) => {
-  $event('symbol:changed', { newSymbol: symbol });
+  $busEmit('symbol:changed', { newSymbol: symbol });
 };
+
+onMounted(() => {
+  console.log('symbol-change: onMounted');
+});
+
 
 </script>

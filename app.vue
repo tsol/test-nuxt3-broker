@@ -48,11 +48,11 @@
             <v-window v-model="tab">
 
               <v-window-item value="orders-book">
-                <orders-book :current-symbol="currentSymbol" />
+                <PageOrdersBook :current-symbol="currentSymbol" />
               </v-window-item>
 
               <v-window-item value="change-symbol">
-                <LazySymbolChange :current-symbol="currentSymbol" :symbols="symbols" />
+                <LazyPageSymbolChange :current-symbol="currentSymbol" :symbols="symbols" />
               </v-window-item>
 
             </v-window>
@@ -67,24 +67,41 @@
 </template>
    
 <script lang="ts" setup>
-import { ref } from "vue";
-const { $listen } = useNuxtApp();
 
-// we don't use store yet, since only current symbol is needed in state
-// all rest is fast changing temporary data from event-bus
+import { ChangedSymbolEvent } from './plugins/eventBus';
 
-const currentSymbol = ref("BTCUSDT");
-const symbols = ref(['BTCUSDT', 'SOLUSDT', 'ETHUSDT']);
+const config = useRuntimeConfig();
+const { $sdk, $busOn, $busEmit } = useNuxtApp();
+
+const connected = ref(false);
+const symbols = ref(config.symbols);
+const currentSymbol = ref(symbols.value[0]);
 
 const drawer = ref(false);
 const tab = ref<"orders-book" | "change-symbol">("orders-book")
 
-$listen('symbol:changed', (event) => {
+const closeDrawer = () => { drawer.value = false; };
+const toggleDrawer = () => { drawer.value = !drawer.value; };
+
+$busOn('sdk:connected', () => {
+  connected.value = true;
+  $busEmit('symbol:changed', { newSymbol: currentSymbol.value });
+});
+
+$busOn('sdk:disconnected', () => { connected.value = false; });
+
+$busOn('symbol:changed', (event: ChangedSymbolEvent) => {
   currentSymbol.value = event.newSymbol;
 });
 
-const closeDrawer = () => { drawer.value = false; };
-const toggleDrawer = () => { drawer.value = !drawer.value; };
+$busOn('toast:error', (event: { message: string }) => {
+  console.error('app: toast:error: ', event.message);
+});
+
+onMounted(() => {
+  console.log('app: onMounted');
+  $sdk.init();
+});
 
 </script>
 

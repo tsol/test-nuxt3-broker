@@ -9,7 +9,15 @@ export default defineNuxtConfig({
   },
   vite: {
     define: {
-      'process.env.DEBUG': true,
+      'process.env.DEBUG': false,
+    },
+  },
+  plugins: ['~/plugins/vuetify', '~/plugins/eventBus', '~/plugins/sdk'],
+  runtimeConfig: {
+    apiKey: '',
+    apiSecret: '',
+    public: {
+      symbols: ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT'],
     },
   },
 });

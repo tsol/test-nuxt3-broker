@@ -12,8 +12,11 @@
   },
   "dependencies": {
     "@mdi/font": "^7.1.96",
+    "add": "^2.0.6",
     "mitt": "^3.0.0",
     "sass": "^1.58.0",
+    "socket.io": "^4.6.0",
+    "socket.io-client": "^4.6.0",
     "vuetify": "^3.1.3"
   }
 }

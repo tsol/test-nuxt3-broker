@@ -46,6 +46,8 @@ Thus last option is crutial and might actually take some time debugging.
 
 Probably we will just proxy everything more or less as is from binance at this point:
 both REST order book state request and WEBSOCKET stream. Combine logic would run on client side.
+On client disconnect the server connection to the binance also stops.
+We can arrange the streams by topic and disconnect upon last subscription on the topic.
 
 That will be day 2. Day three will be all about drawing order book with proper scrolling.
 

@@ -6,7 +6,6 @@
         <v-app-bar color="primary" class="w-100" density="compact">
           <template v-slot:prepend>
             <v-btn @click.stop="toggleDrawer()" icon="mdi-menu" />
-            <!--<v-app-bar-nav-icon></v-app-bar-nav-icon>-->
           </template>
 
           <v-app-bar-title>Nuxt3-TS-Broker</v-app-bar-title>
@@ -20,29 +19,25 @@
 
         <Teleport to="body">
           <v-navigation-drawer v-model="drawer" temporary>
-
-            <v-list-item prepend-avatar="/avatars/cartoon-harry.jpeg" title="Igor Kravets"></v-list-item>
+            <v-list>
+              <v-list-item prepend-avatar="/avatars/cartoon-harry.jpeg" title="Igor Kravets"></v-list-item>
+            </v-list>
 
             <v-divider></v-divider>
 
             <v-tabs @update:model-value="closeDrawer" v-model="tab" direction="vertical" color="primary">
 
               <v-tab value="orders-book">
-                <v-icon start>
-                  mdi-view-dashboard
-                </v-icon>
+                <v-icon start>mdi-view-dashboard</v-icon>
                 Orders Book
               </v-tab>
 
               <v-tab value="change-symbol">
-                <v-icon start>
-                  mdi-bitcoin
-                </v-icon>
+                <v-icon start>mdi-bitcoin</v-icon>
                 Change Symbol
               </v-tab>
 
             </v-tabs>
-
 
           </v-navigation-drawer>
         </Teleport>
@@ -75,23 +70,21 @@
 import { ref } from "vue";
 const { $listen } = useNuxtApp();
 
+// we don't use store yet, since only current symbol is needed in state
+// all rest is fast changing temporary data from event-bus
+
 const currentSymbol = ref("BTCUSDT");
 const symbols = ref(['BTCUSDT', 'SOLUSDT', 'ETHUSDT']);
 
 const drawer = ref(false);
 const tab = ref<"orders-book" | "change-symbol">("orders-book")
 
-$listen('symbol:changed', (symbol) => {
-  currentSymbol.value = symbol.name;
+$listen('symbol:changed', (event) => {
+  currentSymbol.value = event.newSymbol;
 });
 
-const closeDrawer = () => {
-  drawer.value = false;
-};
-
-const toggleDrawer = () => {
-  drawer.value = !drawer.value;
-};
+const closeDrawer = () => { drawer.value = false; };
+const toggleDrawer = () => { drawer.value = !drawer.value; };
 
 </script>
 

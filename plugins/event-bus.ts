@@ -1,16 +1,16 @@
 import mitt from 'mitt';
 
-export interface SelectedSymbol {
-  name: string;
+export interface ChangeSymbolEvent {
+  newSymbol: string;
 }
 
-export interface OrdersBookDiff {
+export interface OrdersBookDiffEvent {
   data: string;
 }
 
 type ApplicationEvents = {
-  'symbol:changed': SelectedSymbol;
-  'orders-book:diff': OrdersBookDiff;
+  'symbol:changed': ChangeSymbolEvent;
+  'orders-book:diff': OrdersBookDiffEvent;
 };
 
 export default defineNuxtPlugin(() => {

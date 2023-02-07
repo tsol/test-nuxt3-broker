@@ -17,12 +17,12 @@ defineProps<{
 
 const { $event, $listen } = useNuxtApp();
 
-$listen('orders-book:diff', (diff) => {
-  console.log('symbol-change: diff arrived: ', diff);
+$listen('orders-book:diff', (event) => {
+  console.log('symbol-change-page: diff arrived: ', event);
 });
 
 const changeSymbol = (symbol: string) => {
-  $event('symbol:changed', { name: symbol });
+  $event('symbol:changed', { newSymbol: symbol });
 };
 
 </script>

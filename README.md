@@ -1,4 +1,4 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 Binance Mini View
 
 This is a test task for a job interview. Initial task requires me to build a
 Single Page Application (preferably with SSR support, preferably in VUE/VUETIFY,
@@ -24,9 +24,29 @@ Finally Nuxt should be easily deployable to a free hosting right from github. So
    well designed and simple at github. If now - thats probably where css BEM comes in. Although
    i might just use vuetify style classes. As far as a i remember they as powerfull as Tailwind.
 
-## Updates
+## Updates, how plan unfolds
 
 1. Initially i was planning to use different pages for my components. But that would
-   enevediablly lead to using state manager. Which is ok and cool, but we already have
+   inevitably lead to using state manager. Which is ok and cool, but we already have
    an Event-BUS module required. That would just meen an extra step tossing data around -
    since Pinia would be main source of truth. It would work, but i don't think we should overcomplicate things. So we'll make lazy components subscribed to updates from event bus.
+
+2. Yeah no pages, only components. Common static stuff now in top component app just drilling down.
+   Components do update them through event bus. Probably will use pinia in the end anyways :)
+   Anyhow, task for today is:
+
+- deploy SocketsIO server in nuxt3
+- make sure we can communicate with it from the components
+- IMPORTANT: deploy code to Netlify and make sure it still works
+
+Thus last option is crutial and might actually take some time debugging.
+
+- also check how lazy components work in production
+- once everything works with Netlify - start creating server proxy
+
+Probably we will just proxy everything more or less as is from binance at this point:
+both REST order book state request and WEBSOCKET stream. Combine logic would run on client side.
+
+That will be day 2. Day three will be all about drawing order book with proper scrolling.
+
+3.

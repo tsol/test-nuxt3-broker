@@ -4,7 +4,7 @@
   <p> CurrentSymbol: {{ currentSymbol }} </p>
 
   <p>Loading state: {{ book.loadingState }} </p>
-
+  <p>Last update id: {{ book.lastUpdateId }}</p>
   <p>Asks: {{ book.asks }} </p>
   <p>Bids: {{ book.bids }} </p>
 

@@ -1,17 +1,15 @@
 {
   "private": true,
   "scripts": {
-    "start": "nuxt start",
-    "build": "nuxt build",
+    "start": "node_modules/nuxt/bin/nuxt.mjs start -c ./nuxt.config.js",
+    "build": "node_modules/nuxt/bin/nuxt.mjs nuxt build -c ./nuxt.config.js",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "^3.1.2"
-  },
-  "dependencies": {
+    "nuxt": "^3.1.2",
     "@mdi/font": "^7.1.96",
     "add": "^2.0.6",
     "binance": "^2.3.3",

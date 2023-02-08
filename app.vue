@@ -1,80 +1,82 @@
 <template>
   <v-app>
+    <ClientOnly>
 
-    <v-layout :full-height="true">
+      <v-layout :full-height="true">
 
-      <v-app-bar color="primary" class="w-100" density="compact">
-        <template v-slot:prepend>
-          <v-btn @click.stop="toggleDrawer()" icon="mdi-menu" />
-        </template>
+        <v-app-bar color="primary" class="w-100" density="compact">
+          <template v-slot:prepend>
+            <v-btn @click.stop="toggleDrawer()" icon="mdi-menu" />
+          </template>
 
-        <v-app-bar-title>{{ pageTitle }}</v-app-bar-title>
+          <v-app-bar-title>{{ pageTitle }}</v-app-bar-title>
 
-        <template v-slot:append>
+          <template v-slot:append>
 
-          <v-icon v-if="connected" color="green">
-            mdi-checkbox-marked-circle
-          </v-icon>
-          <v-icon v-else color="red">
-            mdi-close-circle
-          </v-icon>
-
-
-          <!--<v-btn icon="mdi-dots-vertical"></v-btn>-->
-        </template>
-
-      </v-app-bar>
+            <v-icon v-if="connected" color="green">
+              mdi-checkbox-marked-circle
+            </v-icon>
+            <v-icon v-else color="red">
+              mdi-close-circle
+            </v-icon>
 
 
-      <Teleport to="body">
+            <!--<v-btn icon="mdi-dots-vertical"></v-btn>-->
+          </template>
 
-        <MyToast />
+        </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" temporary>
-          <v-list>
-            <v-list-item prepend-avatar="/avatars/cartoon-harry.jpeg" title="Igor Kravets"></v-list-item>
-          </v-list>
 
-          <v-divider></v-divider>
+        <Teleport to="body">
 
-          <v-tabs @update:model-value="closeDrawer" v-model="tab" direction="vertical" color="primary">
+          <MyToast />
 
-            <v-tab value="orders-book">
-              <v-icon start>mdi-view-dashboard</v-icon>
-              Orders Book
-            </v-tab>
+          <v-navigation-drawer v-model="drawer" temporary>
+            <v-list>
+              <v-list-item prepend-avatar="/avatars/cartoon-harry.jpeg" title="Igor Kravets"></v-list-item>
+            </v-list>
 
-            <v-tab value="change-symbol">
-              <v-icon start>mdi-bitcoin</v-icon>
-              Change Symbol
-            </v-tab>
+            <v-divider></v-divider>
 
-          </v-tabs>
+            <v-tabs @update:model-value="closeDrawer" v-model="tab" direction="vertical" color="primary">
 
-        </v-navigation-drawer>
-      </Teleport>
+              <v-tab value="orders-book">
+                <v-icon start>mdi-view-dashboard</v-icon>
+                Orders Book
+              </v-tab>
 
-      <v-main>
-        <keep-alive>
+              <v-tab value="change-symbol">
+                <v-icon start>mdi-bitcoin</v-icon>
+                Change Symbol
+              </v-tab>
 
-          <v-window v-model="tab">
+            </v-tabs>
 
-            <v-window-item value="orders-book">
-              <PageOrdersBook />
-            </v-window-item>
+          </v-navigation-drawer>
+        </Teleport>
 
-            <v-window-item value="change-symbol">
-              <LazyPageSymbolChange :current-symbol="currentSymbol" :symbols="symbols" />
-            </v-window-item>
+        <v-main>
+          <keep-alive>
 
-          </v-window>
+            <v-window v-model="tab">
 
-        </keep-alive>
+              <v-window-item value="orders-book">
+                <PageOrdersBook />
+              </v-window-item>
 
-      </v-main>
+              <v-window-item value="change-symbol">
+                <LazyPageSymbolChange :current-symbol="currentSymbol" :symbols="symbols" />
+              </v-window-item>
 
-    </v-layout>
+            </v-window>
 
+          </keep-alive>
+
+        </v-main>
+
+      </v-layout>
+
+    </ClientOnly>
   </v-app>
 </template>
    

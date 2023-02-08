@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiKey: '',
     apiSecret: '',
+    socketIoUsePort: '',
     public: {
       symbols: ['BTCUSDT', 'ETHUSDT', 'BNBUSDT', 'SOLUSDT'],
     },

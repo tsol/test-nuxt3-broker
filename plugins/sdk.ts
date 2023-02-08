@@ -35,11 +35,15 @@ class BrokerSDK {
     const data = await dataRaw.json();
     console.log('SDK: server status:', data);
 
-    // todo: from runtime config
-    //this.socket = io(':3006');
-    this.socket = io();
+    const { socketIoUsePort } = useRuntimeConfig();
+    this.socket = socketIoUsePort ? io(':' + socketIoUsePort) : io();
 
-    console.log('SDK: server socket', this.socket);
+    console.log(
+      'SDK: server socket created:',
+      this.socket,
+      ' port ',
+      socketIoUsePort
+    );
 
     this.socket.on('connect', () => {
       console.log('SDK: connected');

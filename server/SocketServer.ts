@@ -26,7 +26,7 @@ export default class SocketServer {
   constructor(useServer: any) {
     const config = useRuntimeConfig();
     this.symbols = config.public.symbols;
-    this.io = this.createServerIO(useServer);
+    this.io = this.createServerIO(useServer, config.public.socketIoUsePort);
     this.brokerStreams = new BrokerStreamService();
   }
 
@@ -61,20 +61,16 @@ export default class SocketServer {
     delete this.clients[socket.id];
   }
 
-  private createServerIO(useServer: any) {
+  private createServerIO(useServer: any, usePort: any) {
     // todo: move to settings
 
-    // const io = new Server(3006, {
-    //   cors: {
-    //     origin: '*',
-    //   },
-    // });
-
-    const io = new Server(useServer, {
-      cors: {
-        origin: '*',
-      },
-    });
+    const io = usePort
+      ? new Server(Number(usePort), {
+          cors: {
+            origin: '*',
+          },
+        })
+      : new Server(useServer);
 
     io.on('connection', (socket) => {
       console.log('SS: connection', socket.id);

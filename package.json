@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "start": "node_modules/nuxt/bin/nuxt.mjs start -c ./nuxt.config.js",
-    "build": "node_modules/nuxt/bin/nuxt.mjs nuxt build -c ./nuxt.config.js",
+    "start": "nuxt start",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",

@@ -9,7 +9,6 @@ export type OrdersBookEvent = {
 };
 
 export type OrdersBookDiffEvent = {
-  s: string;
   data: any;
 };
 

@@ -10,15 +10,15 @@ type Book = {
   symbol: string;
   loadingState: LoadingState;
   lastUpdateId: number;
-  bids: Map<number, number>;
-  asks: Map<number, number>;
+  bids: Map<string, string>;
+  asks: Map<string, string>;
 };
 
 export const useBook = () => {
   const book = useState<Book>('book', () => ({
     lastUpdateId: 0,
-    bids: new Map<number, number>([]),
-    asks: new Map<number, number>([]),
+    bids: new Map<string, string>([]),
+    asks: new Map<string, string>([]),
     loadingState: 'no',
     symbol: '',
   }));
@@ -49,7 +49,7 @@ export const useBook = () => {
         event.data.s
       );
       book.value.loadingState = 'await_snapshot';
-      $sdk.getOrdersBook(event.s);
+      $sdk.getOrdersBook(event.data.s);
     }
 
     if (book.value.loadingState === 'await_snapshot') {
@@ -83,8 +83,8 @@ export const useBook = () => {
       book.value.loadingState = 'await_first_applied';
 
       book.value.lastUpdateId = event.data.lastUpdateId;
-      event.data.asks.forEach((a: number[]) => book.value.asks.set(a[0], a[1]));
-      event.data.bids.forEach((b: number[]) => book.value.asks.set(b[0], b[1]));
+      event.data.asks.forEach((a: string[]) => book.value.asks.set(a[0], a[1]));
+      event.data.bids.forEach((b: string[]) => book.value.asks.set(b[0], b[1]));
 
       eventsCache = eventsCache.filter(
         (e) => e.data.u > book.value.lastUpdateId
@@ -109,9 +109,9 @@ export const useBook = () => {
     return firstId === book.value.lastUpdateId + 1;
   };
 
-  const applyMapDiff = (map: Map<number, number>, diff: number[][]) => {
+  const applyMapDiff = (map: Map<string, string>, diff: string[][]) => {
     for (const [price, quantity] of diff) {
-      if (quantity === 0) {
+      if (Number(quantity) === 0) {
         map.delete(price);
       } else {
         map.set(price, quantity);

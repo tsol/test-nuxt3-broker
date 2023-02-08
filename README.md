@@ -60,3 +60,7 @@ Make sure not to forget:
 - load status (big rotating thing and page darkening)
 - connection green/red light in right upper conner
 - move name of the page up to app bar
+- TOASTS!
+- Additional error management
+
+Before that we need to deploy it somewhere. Im thinking heruku for 5$

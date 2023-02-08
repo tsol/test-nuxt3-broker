@@ -13,6 +13,7 @@ type Client = {
 
 function clientHandlerFactory(socket: Socket): BrokerStreamHandler {
   return (type: BrokerStreamType, data: any) => {
+    //console.log(`SS____: ${data.s} ${data.u} id=${socket.id}`);
     socket.emit(type, data);
   };
 }
@@ -42,10 +43,11 @@ export default class SocketServer {
     let client = this.clients[socket.id];
 
     if (!client) {
-      client = this.clients[socket.id] = {
+      client = {
         socket,
         handleFn: clientHandlerFactory(socket),
       };
+      this.clients[socket.id] = client;
     } else {
       this.brokerStreams.unsubscribeAll(client.handleFn);
     }

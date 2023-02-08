@@ -56,7 +56,7 @@ export const useBook = () => {
     if (book.value.loadingState === 'await_snapshot') {
       console.log(
         'use-book: caching event, while awaiting snapshot',
-        event.data.s
+        event.data
       );
       eventsCache.push(event);
       if (eventsCache.length > 100) {
@@ -71,8 +71,7 @@ export const useBook = () => {
     }
 
     console.log('use-book: applying diff ', event.data);
-
-    if (!verifyAndApplyEvent(event)) return;
+    verifyAndApplyEvent(event);
   });
 
   $busOn('sdk:orders-book', (event) => {
@@ -91,9 +90,9 @@ export const useBook = () => {
         (e) => e.data.u > book.value.lastUpdateId
       );
 
-      for (const e of eventsCache) {
-        if (!verifyAndApplyEvent(e)) return;
-      }
+      eventsCache.forEach((e) => {
+        verifyAndApplyEvent(e);
+      });
 
       eventsCache = [];
     }

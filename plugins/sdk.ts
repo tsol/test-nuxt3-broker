@@ -2,6 +2,7 @@ import { io, Socket } from 'socket.io-client';
 
 class BrokerSDK {
   private socket: Socket | null = null;
+  private subscribedToOrdersBook = false;
 
   constructor(private $busEmit: Function) {}
 
@@ -13,10 +14,13 @@ class BrokerSDK {
       symbol,
     });
 
+    if (this.subscribedToOrdersBook) return;
+
     this.socket.on('depthUpdate', (data) => {
-      //console.log('SDK: order book diff:', data);
       this.$busEmit('sdk:orders-book-diff', { data });
     });
+
+    this.subscribedToOrdersBook = true;
   }
 
   public async getOrdersBook(symbol: string) {

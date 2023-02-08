@@ -1,67 +1,79 @@
 <template>
   <v-app>
-    <v-card>
-      <v-layout>
 
-        <v-app-bar color="primary" class="w-100" density="compact">
-          <template v-slot:prepend>
-            <v-btn @click.stop="toggleDrawer()" icon="mdi-menu" />
-          </template>
+    <v-layout :full-height="true">
 
-          <v-app-bar-title>Nuxt3-TS-Broker</v-app-bar-title>
+      <v-app-bar color="primary" class="w-100" density="compact">
+        <template v-slot:prepend>
+          <v-btn @click.stop="toggleDrawer()" icon="mdi-menu" />
+        </template>
 
-          <template v-slot:append>
-            <v-btn icon="mdi-dots-vertical"></v-btn>
-          </template>
+        <v-app-bar-title>{{ pageTitle }}</v-app-bar-title>
 
-        </v-app-bar>
+        <template v-slot:append>
 
-
-        <Teleport to="body">
-          <v-navigation-drawer v-model="drawer" temporary>
-            <v-list>
-              <v-list-item prepend-avatar="/avatars/cartoon-harry.jpeg" title="Igor Kravets"></v-list-item>
-            </v-list>
-
-            <v-divider></v-divider>
-
-            <v-tabs @update:model-value="closeDrawer" v-model="tab" direction="vertical" color="primary">
-
-              <v-tab value="orders-book">
-                <v-icon start>mdi-view-dashboard</v-icon>
-                Orders Book
-              </v-tab>
-
-              <v-tab value="change-symbol">
-                <v-icon start>mdi-bitcoin</v-icon>
-                Change Symbol
-              </v-tab>
-
-            </v-tabs>
-
-          </v-navigation-drawer>
-        </Teleport>
+          <v-icon v-if="connected" color="green">
+            mdi-checkbox-marked-circle
+          </v-icon>
+          <v-icon v-else color="red">
+            mdi-close-circle
+          </v-icon>
 
 
-        <v-main>
-          <keep-alive>
-            <v-window v-model="tab">
+          <!--<v-btn icon="mdi-dots-vertical"></v-btn>-->
+        </template>
 
-              <v-window-item value="orders-book">
-                <PageOrdersBook :current-symbol="currentSymbol" />
-              </v-window-item>
-
-              <v-window-item value="change-symbol">
-                <LazyPageSymbolChange :current-symbol="currentSymbol" :symbols="symbols" />
-              </v-window-item>
-
-            </v-window>
-          </keep-alive>
-        </v-main>
+      </v-app-bar>
 
 
-      </v-layout>
-    </v-card>
+      <Teleport to="body">
+
+        <MyToast />
+
+        <v-navigation-drawer v-model="drawer" temporary>
+          <v-list>
+            <v-list-item prepend-avatar="/avatars/cartoon-harry.jpeg" title="Igor Kravets"></v-list-item>
+          </v-list>
+
+          <v-divider></v-divider>
+
+          <v-tabs @update:model-value="closeDrawer" v-model="tab" direction="vertical" color="primary">
+
+            <v-tab value="orders-book">
+              <v-icon start>mdi-view-dashboard</v-icon>
+              Orders Book
+            </v-tab>
+
+            <v-tab value="change-symbol">
+              <v-icon start>mdi-bitcoin</v-icon>
+              Change Symbol
+            </v-tab>
+
+          </v-tabs>
+
+        </v-navigation-drawer>
+      </Teleport>
+
+      <v-main>
+        <keep-alive>
+
+          <v-window v-model="tab">
+
+            <v-window-item value="orders-book">
+              <PageOrdersBook />
+            </v-window-item>
+
+            <v-window-item value="change-symbol">
+              <LazyPageSymbolChange :current-symbol="currentSymbol" :symbols="symbols" />
+            </v-window-item>
+
+          </v-window>
+
+        </keep-alive>
+
+      </v-main>
+
+    </v-layout>
 
   </v-app>
 </template>
@@ -103,6 +115,30 @@ onMounted(() => {
   $sdk.init();
 });
 
+const pageTitle = computed(() => {
+  const pages = {
+    'orders-book': 'Orders Book',
+    'change-symbol': 'Change Symbol',
+  };
+  return `${pages[tab.value]}: ${currentSymbol.value}`;
+});
+
 </script>
 
+<style>
+html {
+  overflow: hidden;
+}
 
+/*
+main {
+  width: 100vw;
+  height: calc(100vh - 48px);
+  flex-direction: column;
+  overflow: scroll;
+  overflow-x: hidden;
+  margin-top: 48px;
+  padding-top: 0 !important;
+}
+*/
+</style>

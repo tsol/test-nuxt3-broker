@@ -16,6 +16,10 @@ export type ToastErrorEvent = {
   message: string;
 };
 
+export type ToastMessageEvent = {
+  message: string;
+};
+
 type ApplicationEvents = {
   'symbol:changed': ChangedSymbolEvent;
   'sdk:orders-book': OrdersBookEvent;
@@ -23,6 +27,7 @@ type ApplicationEvents = {
   'sdk:connected': void;
   'sdk:disconnected': void;
   'toast:error': ToastErrorEvent;
+  'toast:message': ToastErrorEvent;
 };
 
 export default defineNuxtPlugin(() => {

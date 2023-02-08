@@ -12,6 +12,7 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
+  components: ['~/components', '~/components/book', '~/components/helpers'],
   plugins: ['~/plugins/vuetify', '~/plugins/eventBus', '~/plugins/sdk'],
   runtimeConfig: {
     apiKey: '',

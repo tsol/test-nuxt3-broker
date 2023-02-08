@@ -84,7 +84,7 @@ export const useBook = () => {
 
       book.value.lastUpdateId = event.data.lastUpdateId;
       event.data.asks.forEach((a: string[]) => book.value.asks.set(a[0], a[1]));
-      event.data.bids.forEach((b: string[]) => book.value.asks.set(b[0], b[1]));
+      event.data.bids.forEach((b: string[]) => book.value.bids.set(b[0], b[1]));
 
       eventsCache = eventsCache.filter(
         (e) => e.data.u > book.value.lastUpdateId

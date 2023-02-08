@@ -59,8 +59,8 @@ const flatten = (bookRow: number[][]): number[] => {
 
 const bookRows = computed(() => {
   const bids = to2d(book.value.bids).sort((a, b) => b[0] - a[0]);
-  const asks = to2d(book.value.asks).sort((a, b) => a[0] - b[0])
-    .filter((a) => a[0] > bids[0][0]);
+  const asks = to2d(book.value.asks).sort((a, b) => a[0] - b[0]);
+  //.filter((a) => a[0] > bids[0][0]);
 
   const max = Math.max(asks.length, bids.length);
   let ia = 0, ib = 0;

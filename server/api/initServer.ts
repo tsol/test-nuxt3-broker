@@ -8,7 +8,8 @@ var socketServer: SocketServer | null = null;
 
 export default defineEventHandler((event) => {
   if (!socketServer) {
-    socketServer = new SocketServer();
+    const httpServer = (event.node.req.socket as any).server;
+    socketServer = new SocketServer(httpServer);
     return { server: 'just_created' };
   }
   return { server: 'already_existed' };

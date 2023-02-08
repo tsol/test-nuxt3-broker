@@ -23,10 +23,10 @@ export default class SocketServer {
   private symbols: string[];
   private clients: Record<string, Client> = {};
 
-  constructor() {
+  constructor(useServer: any) {
     const config = useRuntimeConfig();
     this.symbols = config.public.symbols;
-    this.io = this.createServerIO();
+    this.io = this.createServerIO(useServer);
     this.brokerStreams = new BrokerStreamService();
   }
 
@@ -61,9 +61,16 @@ export default class SocketServer {
     delete this.clients[socket.id];
   }
 
-  private createServerIO() {
+  private createServerIO(useServer: any) {
     // todo: move to settings
-    const io = new Server(3006, {
+
+    // const io = new Server(3006, {
+    //   cors: {
+    //     origin: '*',
+    //   },
+    // });
+
+    const io = new Server(useServer, {
       cors: {
         origin: '*',
       },

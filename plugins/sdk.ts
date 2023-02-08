@@ -36,7 +36,9 @@ class BrokerSDK {
     console.log('SDK: server status:', data);
 
     // todo: from runtime config
-    this.socket = io(':3006');
+    //this.socket = io(':3006');
+    this.socket = io();
+
     console.log('SDK: server socket', this.socket);
 
     this.socket.on('connect', () => {

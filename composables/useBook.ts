@@ -34,6 +34,7 @@ export const useBook = () => {
     }
 
     console.log('use-book: need new order book for', event.newSymbol);
+    book.value.lastUpdateId = 0;
     book.value.loadingState = 'await_ws_data';
     book.value.symbol = event.newSymbol;
     book.value.bids.clear();

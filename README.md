@@ -10,13 +10,12 @@ The GUI components must consist of two pages - one with live-time updated order 
 1. **Nuxt3**. We probably will want to hide binance API token and have some sort of server api.
    Also SSR is optionally requested. And since Vue, not React - then Nuxt.
    Will take the latest possible version of those and typescript. Lets see if we will need Pinia or not.
+   
+   Also with lazy components we will achive postponed component load.
+   
+   Finally Nuxt should be easily deployable to a free hosting right from github. So nuxt 3 it is.
 
-Also with lazy components we will achive postponed component load.
-
-Finally Nuxt should be easily deployable to a free hosting right from github. So nuxt 3 it is.
-
-2. **Sockets.IO** Since we will hide API key, we will build something of a proxy on the server side, mimicing the original requests.
-There will be one REST request for loading up initial state. And also websockets stream of Order Book updates. Also the tasks mentioned that we should be carefull managing order book. Luckily i have some experience with Binance API and already aware of the synchronization procedure for the order book.
+2. **Sockets.IO** Since we will hide API key, we will build something of a proxy on the server side, mimicing the original requests. There will be one REST request for loading up initial state of the order book. And also websockets stream of order book updates. Also the tasks mentioned that we should be carefull managing order book. Luckily i have some experience with Binance API and already aware of the synchronization procedure for the order book.
 
 3. **GUI** Well VUITIFY it is. No problems there in terms of basic GUI. Will use Vuetify 3 ofcourse. How shall we draw an Order Book? Firstly i'll try to find something well designed and simple at github. If nothings there - thats probably where css BEM requirement comes in. Although i might just use vuetify helper classes. As far as a i remember they are as powerfull as Tailwind.
 

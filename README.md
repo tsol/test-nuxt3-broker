@@ -3,7 +3,7 @@
 This is a test task for a job interview. Initial task requires me to build a Single Page Application (preferably with SSR support, preferably in VUE/VUETIFY, well designed, higly reactive, modular blah blah - BUT with each page acting more or less as an independed component,
 featuring more or less independent 'core plugins' amongst which are mandatory event bus and binance order book manager.
 
-The GUI components must consist of two pages - one with live-time updated order book for current symbol, other with SYMBOL selector and list of live updates to the order book. Each one page must affect the other though EventBus.
+The GUI components must consist of two pages - one with live-time updated order book for current symbol, other with SYMBOL selector and list of live updates to the order book. Each one page must affect the other through event bus.
 
 ## My way of thought: initial plan
 

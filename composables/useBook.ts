@@ -136,7 +136,8 @@ export const useBook = () => {
 
     if (!verifyFn(e)) {
       $busEmit('toast:error', {
-        message: 'Error loading order book. Invalid event.',
+        message:
+          'Error loading order book. Event id verification failed. Reload app.',
       });
       return false;
     }

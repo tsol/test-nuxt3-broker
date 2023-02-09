@@ -2,7 +2,9 @@ import { io, Socket } from 'socket.io-client';
 
 class BrokerSDK {
   private socket: Socket | null = null;
-  private subscribedToOrdersBook = false;
+
+  private getOrderBooksAbortController: AbortController | null = null;
+  private isSubscribedToOrdersBook = false;
 
   constructor(private $busEmit: Function) {}
 
@@ -14,8 +16,8 @@ class BrokerSDK {
       symbol,
     });
 
-    if (this.subscribedToOrdersBook) return;
-    this.subscribedToOrdersBook = true;
+    if (this.isSubscribedToOrdersBook) return;
+    this.isSubscribedToOrdersBook = true;
 
     this.socket.on('depthUpdate', (data) => {
       this.$busEmit('sdk:orders-book-diff', { data });
@@ -23,15 +25,31 @@ class BrokerSDK {
   }
 
   public async getOrdersBook(symbol: string) {
+    if (this.getOrderBooksAbortController) {
+      this.getOrderBooksAbortController.abort();
+      this.getOrderBooksAbortController = null;
+      console.log('SDK: previous book loading aborted...');
+    }
+
+    this.getOrderBooksAbortController = new AbortController();
+    const signal = this.getOrderBooksAbortController.signal;
+
     const dataRaw = await fetch('/api/orderBook/' + symbol, {
       method: 'GET',
+      signal,
     });
+
     const data = await dataRaw.json();
-    console.log('SDK: get order book:', data);
+    console.log('SDK: got order book:', symbol);
     this.$busEmit('sdk:orders-book', { symbol, data });
   }
 
   public async init() {
+    if (this.socket) {
+      console.log('SDK: second attempt to initialize');
+      return;
+    }
+
     const dataRaw = await fetch('/api/initServer', {
       method: 'GET',
     });

@@ -1,39 +1,21 @@
 import mitt from 'mitt';
 
-export type ChangedSymbolEvent = {
-  newSymbol: string;
-};
-
-export type OrdersBookEvent = {
-  symbol: string;
-  data: any;
-};
-
 export type OrdersBookDiffEvent = {
   data: any;
 };
 
-export type ToastErrorEvent = {
-  message: string;
-};
-
-export type ToastMessageEvent = {
-  message: string;
-};
-
-type ApplicationEvents = {
-  'symbol:changed': ChangedSymbolEvent;
-  'sdk:orders-book': OrdersBookEvent;
+export type BusEvents = {
+  'symbol:changed': { newSymbol: string };
+  'sdk:orders-book': { symbol: string; data: any };
   'sdk:orders-book-diff': OrdersBookDiffEvent;
   'sdk:connected': void;
   'sdk:disconnected': void;
-  'toast:error': ToastErrorEvent;
-  'toast:message': ToastErrorEvent;
+  'toast:error': { message: string };
+  'toast:message': { message: string };
 };
 
 export default defineNuxtPlugin(() => {
-  const emitter = mitt<ApplicationEvents>();
-
+  const emitter = mitt<BusEvents>();
   return {
     provide: {
       busEmit: emitter.emit,

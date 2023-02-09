@@ -82,8 +82,6 @@
    
 <script lang="ts" setup>
 
-import { ChangedSymbolEvent } from './plugins/eventBus';
-
 const config = useRuntimeConfig();
 const { $sdk, $busOn, $busEmit } = useNuxtApp();
 
@@ -100,11 +98,15 @@ const toggleDrawer = () => { drawer.value = !drawer.value; };
 $busOn('sdk:connected', () => {
   connected.value = true;
   $busEmit('symbol:changed', { newSymbol: currentSymbol.value });
+  $busEmit('toast:message', { message: 'Connected to server' });
 });
 
-$busOn('sdk:disconnected', () => { connected.value = false; });
+$busOn('sdk:disconnected', () => {
+  connected.value = false;
+  $busEmit('toast:error', { message: 'Disconnected from server' });
+});
 
-$busOn('symbol:changed', (event: ChangedSymbolEvent) => {
+$busOn('symbol:changed', (event) => {
   currentSymbol.value = event.newSymbol;
 });
 

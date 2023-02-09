@@ -1,4 +1,4 @@
-import { ChangedSymbolEvent, OrdersBookDiffEvent } from '~~/plugins/eventBus';
+import { OrdersBookDiffEvent } from '~/plugins/eventBus';
 
 type LoadingState =
   | 'no'
@@ -23,11 +23,13 @@ export const useBook = () => {
     symbol: '',
   }));
 
+  console.log('use-book: hook created');
+
   const { $sdk, $busOn, $busEmit } = useNuxtApp();
 
   let eventsCache: OrdersBookDiffEvent[] = [];
 
-  $busOn('symbol:changed', (event: ChangedSymbolEvent) => {
+  $busOn('symbol:changed', (event) => {
     if (event.newSymbol === book.value.symbol) {
       console.log('use-book: symbol did not change, no need to reload book');
       return;
@@ -43,7 +45,15 @@ export const useBook = () => {
     $sdk.subscribeToOrdersBook(event.newSymbol);
   });
 
-  $busOn('sdk:orders-book-diff', (event: OrdersBookDiffEvent) => {
+  $busOn('sdk:orders-book-diff', (event) => {
+    if (event.data.s !== book.value.symbol) {
+      console.log(
+        'use-book: diff event from another book, skipping...',
+        event.data.s
+      );
+      return;
+    }
+
     if (book.value.loadingState === 'await_ws_data') {
       console.log(
         'use-book: first diff arrived, awaiting snapshot',
@@ -78,7 +88,7 @@ export const useBook = () => {
     console.log('use-book: new book arrived ', event);
 
     if (event.symbol !== book.value.symbol) {
-      console.log('use-book: not the book we were waiting for');
+      console.log('use-book: not the book we were hoping for');
       return;
     }
 
@@ -91,9 +101,9 @@ export const useBook = () => {
       event.data.asks.forEach((a: string[]) => book.value.asks.set(a[0], a[1]));
       event.data.bids.forEach((b: string[]) => book.value.bids.set(b[0], b[1]));
 
-      eventsCache = eventsCache.filter(
-        (e) => e.data.u > book.value.lastUpdateId
-      );
+      // eventsCache = eventsCache.filter(
+      //   (e) => e.data.u > book.value.lastUpdateId
+      // );
 
       eventsCache.forEach((e) => {
         verifyAndApplyEvent(e);
@@ -106,7 +116,7 @@ export const useBook = () => {
   const verifyFirstEvent = (e: OrdersBookDiffEvent) => {
     const { u: lastId, U: firstId } = e.data;
     const lastUpdateId = book.value.lastUpdateId;
-    return firstId <= lastUpdateId + 1 && lastId > lastUpdateId + 1;
+    return firstId <= lastUpdateId + 1 && lastId >= lastUpdateId + 1;
   };
 
   const verifyNextEvent = (e: OrdersBookDiffEvent) => {
@@ -134,6 +144,12 @@ export const useBook = () => {
   const verifyAndApplyEvent = (e: OrdersBookDiffEvent) => {
     if (e.data.s !== book.value.symbol) {
       console.log('use-book: possibly wrong symbol, ignoring event');
+      return;
+    }
+
+    const { u: lastId } = e.data;
+    if (lastId < book.value.lastUpdateId + 1) {
+      console.log('use-book: event older than snapshot, skipping', e.data);
       return;
     }
 

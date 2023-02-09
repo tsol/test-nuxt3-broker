@@ -5,6 +5,7 @@ export type ChangedSymbolEvent = {
 };
 
 export type OrdersBookEvent = {
+  symbol: string;
   data: any;
 };
 

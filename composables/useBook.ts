@@ -77,6 +77,11 @@ export const useBook = () => {
   $busOn('sdk:orders-book', (event) => {
     console.log('use-book: new book arrived ', event);
 
+    if (event.symbol !== book.value.symbol) {
+      console.log('use-book: not the book we were waiting for');
+      return;
+    }
+
     if (book.value.loadingState === 'await_snapshot') {
       console.log('use-book: snapshot arrived, applying cached events');
 
@@ -127,6 +132,11 @@ export const useBook = () => {
   };
 
   const verifyAndApplyEvent = (e: OrdersBookDiffEvent) => {
+    if (e.data.s !== book.value.symbol) {
+      console.log('use-book: possibly wrong symbol, ignoring event');
+      return;
+    }
+
     let verifyFn = verifyNextEvent;
 
     if (book.value.loadingState === 'await_first_applied') {

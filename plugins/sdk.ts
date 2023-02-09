@@ -15,12 +15,11 @@ class BrokerSDK {
     });
 
     if (this.subscribedToOrdersBook) return;
+    this.subscribedToOrdersBook = true;
 
     this.socket.on('depthUpdate', (data) => {
       this.$busEmit('sdk:orders-book-diff', { data });
     });
-
-    this.subscribedToOrdersBook = true;
   }
 
   public async getOrdersBook(symbol: string) {
@@ -29,7 +28,7 @@ class BrokerSDK {
     });
     const data = await dataRaw.json();
     console.log('SDK: get order book:', data);
-    this.$busEmit('sdk:orders-book', { data });
+    this.$busEmit('sdk:orders-book', { symbol, data });
   }
 
   public async init() {

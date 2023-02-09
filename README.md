@@ -42,9 +42,7 @@ We can arrange the streams by topic and disconnect upon last subscription on the
 
 That will be day 2. Day three will be all about drawing order book with proper scrolling.
 
-Day 3. Well, Netlify doesnt allow server websockets, so netlify and github pages.
-   We could've used github pages probably to make only front, but thats not the way.
-   Server is ready and so 99% of the logic. Third day is for GUI.
+Day 3. Well, Netlify doesnt allow server websockets, so do not netlify and github pages. We could've used github pages proxy, probably, to make our app front-only thats not the way of true Jedi. Server is almost ready and so 99% of the logic. Third day is for GUI.
 
 Make sure not to forget:
 
